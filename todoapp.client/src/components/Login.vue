@@ -2,21 +2,8 @@
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-6">
-        <h2 class="text-center mb-4">Register</h2>
+        <h2 class="text-center mb-4">Login</h2>
         <form @submit.prevent="submitForm" novalidate>
-          <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text"
-                   class="form-control"
-                   id="name"
-                   v-model="formData.name"
-                   :class="{ 'is-invalid': errors.name }"
-                   required
-                   placeholder="Enter your name" />
-            <div v-if="errors.name" class="invalid-feedback">
-              {{ errors.name }}
-            </div>
-          </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <input type="email"
@@ -43,29 +30,15 @@
               {{ errors.password }}
             </div>
           </div>
-          <div class="mb-3">
-            <label for="confirmPassword" class="form-label">Confirm Password</label>
-            <input type="password"
-                   class="form-control"
-                   id="confirmPassword"
-                   v-model="formData.confirmPassword"
-                   :class="{ 'is-invalid': errors.confirmPassword }"
-                   required
-                   placeholder="Confirm your password" />
-            <div v-if="errors.confirmPassword" class="invalid-feedback">
-              {{ errors.confirmPassword }}
-            </div>
-          </div>
           <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">Login</button>
           </div>
-          <div class="login-link">
-            <a href="login">Already have an account? Log in here!</a>
+          <div class="register-link">
+            <a href="/">Don't have an account? Register here!</a>
           </div>
         </form>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -74,35 +47,25 @@
   import axios from 'axios';
 
   export default {
-    name: 'Register',
+    name: 'Login',
     setup() {
       const formData = ref({
-        name: '',
         email: '',
-        password: '',
-        //confirmPassword: ''
+        password: ''
       });
 
       const errors = ref({
-        name: '',
         email: '',
-        password: '',
-        ///confirmPassword: ''
+        password: ''
       });
 
       const validateForm = () => {
         errors.value = {
-          name: '',
           email: '',
-          password: '',
-          //confirmPassword: ''
+          password: ''
         };
 
         let valid = true;
-        if (!formData.value.name) {
-          errors.value.name = 'Name is required';
-          valid = false;
-        }
         if (!formData.value.email) {
           errors.value.email = 'Email is required';
           valid = false;
@@ -114,27 +77,20 @@
           errors.value.password = 'Password is required';
           valid = false;
         }
-        if (formData.value.password !== formData.value.confirmPassword) {
-          errors.value.confirmPassword = 'Passwords do not match';
-          valid = false;
-        }
         return valid;
       };
 
       const submitForm = async () => {
         if (validateForm()) {
           try {
-            const response = await axios.post('https://localhost:7152/api/User/register', {
-              user_name: formData.value.name,
+            const response = await axios.post('https://localhost:7152/api/User/login', {
               email: formData.value.email,
               password: formData.value.password
             });
-            console.log(response.data);
-            console.log('User registered successfully:', response.data);
-            this.$router.push('/login');
+            console.log('Login successful:', response.data);
+            this.$router.push('/home'); // Redirect to home page or dashboard
           } catch (error) {
-            console.error('Error registering user:', error);
-            console.log(error.response);
+            console.error('Error logging in:', error);
           }
         }
       };

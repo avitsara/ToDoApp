@@ -3,7 +3,9 @@ import Register from './components/Register.vue';
 </script>
 
 <template>
-  <Register></Register>
+  <div id="app">
+    <router-view></router-view>
+  </div>
 </template>
 
 <style scoped>
