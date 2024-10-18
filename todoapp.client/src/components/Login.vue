@@ -34,7 +34,7 @@
             <button type="submit" class="btn btn-primary">Login</button>
           </div>
           <div class="register-link">
-            <a href="/">Don't have an account? Register here!</a>
+            <router-link to="/">Don't have an account? Register here!</router-link>
           </div>
         </form>
       </div>
@@ -45,10 +45,12 @@
 <script>
   import { ref } from 'vue';
   import axios from 'axios';
+  import { useRouter } from 'vue-router';
 
   export default {
     name: 'Login',
     setup() {
+      const router = useRouter();
       const formData = ref({
         email: '',
         password: ''
@@ -88,7 +90,7 @@
               password: formData.value.password
             });
             console.log('Login successful:', response.data);
-            this.$router.push('/home'); // Redirect to home page or dashboard
+            router.push('/home'); // Redirect to home page or dashboard
           } catch (error) {
             console.error('Error logging in:', error);
           }
