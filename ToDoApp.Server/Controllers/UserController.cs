@@ -23,16 +23,7 @@ namespace ToDoApp.Server.Controllers
             _context = context;
         }
 
-        /*
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] User user)
-        {
-            user.password_hash = BCrypt.Net.BCrypt.HashPassword(user.password_hash);
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "User registered successfully" });
-        }*/
-
+    
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDTO registerDTO)
         {
@@ -63,7 +54,9 @@ namespace ToDoApp.Server.Controllers
             {
                 Message = "Login successful",
                 Token = token,
-                Username = user.user_name
+                Username = user.user_name,
+                user_id = user.user_id  
+
             });
         }
 

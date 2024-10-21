@@ -7,6 +7,7 @@ using ToDoApp.Server.Models;
     public class ApplicationDbContext : DbContext
     {
     public DbSet<User> Users { get; set; }
+    public DbSet<Task> Tasks { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -15,6 +16,8 @@ using ToDoApp.Server.Models;
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>().ToTable("User");
+        modelBuilder.Entity<Task>().ToTable("Task"); 
+
     }
 }
 

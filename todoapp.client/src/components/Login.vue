@@ -89,13 +89,28 @@
               email: formData.value.email,
               password: formData.value.password
             });
-            console.log('Login successful:', response.data);
-            router.push('/home'); // Redirect to home page or dashboard
+
+            console.log('Full API response:', response.data); // Log the full response
+
+            if (response.data.user_id) {
+              console.log('Login successful:', response.data);
+              localStorage.setItem('token', response.data.token);
+              localStorage.setItem('username', response.data.username);
+              localStorage.setItem('user_id', response.data.user_id);
+
+              router.push('/home');
+            } else {
+              console.error('Login failed: user_id not found in response.');
+            }
+
           } catch (error) {
             console.error('Error logging in:', error);
+            errors.value.email = 'Login failed. Please check your credentials.';
           }
         }
       };
+
+
 
       return {
         formData,
