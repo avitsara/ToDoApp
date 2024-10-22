@@ -90,7 +90,7 @@
               password: formData.value.password
             });
 
-            console.log('Full API response:', response.data); // Log the full response
+            console.log('Full API response:', response.data); 
 
             if (response.data.user_id) {
               console.log('Login successful:', response.data);

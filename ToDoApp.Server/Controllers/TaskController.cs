@@ -50,13 +50,46 @@ namespace ToDoApp.Server.Controllers
                 user_id = taskDTO.user_id,
                 title = taskDTO.title,
                 description = taskDTO.description,
-                is_completed = taskDTO.is_completed
+                is_completed = taskDTO.is_completed,
+                created_at = DateTime.Now, 
+                updated_at = DateTime.Now   
             };
 
             _context.Tasks.Add(task);
             await _context.SaveChangesAsync();
-            return Ok(new { Message = "Task created successfully", TaskId = task.task_id });
+            return Ok(new { Message = "Task created successfully", Task = task });
         }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteTask(int id)
+        {
+            var task = await _context.Tasks.FindAsync(id);
+            if (task == null)
+            {
+                return NotFound(new { Message = "Task not found" });
+            }
+
+            _context.Tasks.Remove(task);
+            await _context.SaveChangesAsync();
+            return Ok(new { Message = "Task deleted successfully" });
+        }
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateTaskCompletion(int id, [FromBody] TaskDTO taskDTO)
+        {
+            var task = await _context.Tasks.FindAsync(id);
+            if (task == null)
+            {
+                return NotFound(new { Message = "Task not found" });
+            }
+
+            task.is_completed = taskDTO.is_completed;
+            task.updated_at = DateTime.Now; 
+
+            await _context.SaveChangesAsync();
+            return Ok(new { Message = "Task updated successfully", Task = task });
+        }
+
 
     }
 
